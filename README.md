@@ -1,35 +1,26 @@
-Diwali Greeting Card Generator 🪔
+# 🪔 Diwali Greeting Card Generator
 
-A simple Python Flask web application to create beautiful and personalized Diwali greeting cards.
+A simple web application to create personalized Diwali greeting cards.
 
-Features
+## Features
+- 3 Card Designs
+- Custom Names and Messages
+- Change Colors and Font Size
+- Live Preview
+- Download, Share and Print Cards
+- Gallery with Search and Delete
 
-Three card designs: Traditional, Golden and Modern.
+## Technologies
+Python, Flask, Pillow, HTML, CSS, JavaScript.
 
-Add sender and receiver names.
+## Run Project
+```bash
+pip install -r requirements.txt
+python app.py
+```
 
-Write your own greeting message.
+Open: `http://127.0.0.1:5000`
 
-Change font size and colors.
+## Developer
+Mahesh Shelke
 
-Preview greeting cards.
-
-Generate and download cards.
-
-Share and print cards.
-
-View, search and delete cards from the gallery.
-
-Technologies Used
-
-Python
-
-Flask
-
-Pillow
-
-HTML
-
-CSS
-
-JavaScript
