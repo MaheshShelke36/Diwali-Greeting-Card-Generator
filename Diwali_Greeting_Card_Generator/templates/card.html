@@ -1,0 +1,219 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Your Diwali Greeting Card</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+
+        body {
+            background: #1d1030;
+            color: white;
+            text-align: center;
+            font-family: Arial, sans-serif;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #ffd166;
+        }
+
+        .card-image {
+            display: block;
+            width: 90%;
+            max-width: 600px;
+            height: auto;
+            border: 3px solid #ffd166;
+            border-radius: 12px;
+            margin: 20px auto;
+        }
+
+        .buttons {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 25px;
+        }
+
+        .action-button {
+            display: inline-block;
+            padding: 15px 25px;
+            background: #ffd166;
+            color: #351052;
+            text-decoration: none;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .action-button:hover {
+            background: #ffffff;
+            transform: translateY(-3px);
+        }
+
+        .print-button {
+            background: #32c48d;
+            color: #102c22;
+        }
+
+        .print-button:hover {
+            background: #72e4b4;
+        }
+
+        /* PRINT SETTINGS */
+
+        @media print {
+
+            @page {
+                size: A4 portrait;
+                margin: 10mm;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+            }
+
+            h1,
+            .buttons,
+            .print-note {
+                display: none !important;
+            }
+
+            .card-image {
+                display: block;
+                width: auto;
+                height: auto;
+                max-width: 190mm;
+                max-height: 267mm;
+                margin: 0 auto;
+                border: none;
+                border-radius: 0;
+                object-fit: contain;
+            }
+            .share-button {
+            background: #25D366;
+            color: white;
+            border: none;
+            cursor: pointer;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <h1>🎉 Your Greeting Card is Ready!</h1>
+
+    <!-- GENERATED GREETING CARD -->
+
+    <img
+        class="card-image"
+        src="{{ url_for('static', filename='generated/' + card) }}"
+        alt="Your Diwali Greeting Card">
+
+    <!-- ACTION BUTTONS -->
+
+    <div class="buttons">
+
+        <!-- DOWNLOAD BUTTON -->
+
+        <a
+            class="action-button"
+            href="{{ url_for('static', filename='generated/' + card) }}"
+            download="My_Diwali_Card.png">
+
+            ⬇️ Download Card
+
+        </a>
+
+        <!-- PRINT BUTTON -->
+
+        <button
+            class="action-button print-button"
+            onclick="window.print()">
+
+            🖨️ Print Card
+
+        </button>
+
+        <!-- CREATE ANOTHER CARD -->
+
+        <a
+            class="action-button"
+            href="/">
+
+            ✨ Create Another Card
+
+        </a>
+
+        <!-- GALLERY BUTTON -->
+
+        <a
+            class="action-button"
+            href="/gallery">
+
+            🖼️ View My Gallery
+
+        </a>
+        
+        <button class="action-button share-button" onclick="shareCard()">
+        📤 Share Card
+          </button>
+
+    </div>
+
+    <p class="print-note">
+        Select Print Card to print your Diwali greeting card.
+    </p>
+
+    <script>
+async function shareCard() {
+    const imageUrl = "{{ url_for('static', filename='generated/' + card) }}";
+
+    try {
+        const response = await fetch(imageUrl);
+        const blob = await response.blob();
+
+        const file = new File(
+            [blob],
+            "My_Diwali_Card.png",
+            { type: "image/png" }
+        );
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            await navigator.share({
+                title: "My Diwali Greeting Card",
+                text: "Check out my Diwali greeting card!",
+                files: [file]
+            });
+        } else if (navigator.share) {
+            await navigator.share({
+                title: "My Diwali Greeting Card",
+                text: "Check out my Diwali greeting card!",
+                url: window.location.href
+            });
+        } else {
+            alert("Sharing is not supported in this browser. Please download your card and share it manually.");
+        }
+
+    } catch (error) {
+        if (error.name !== "AbortError") {
+            alert("Unable to share the card. Please download it and share manually.");
+        }
+    }
+}
+</script>
+
+</body>
+</html>

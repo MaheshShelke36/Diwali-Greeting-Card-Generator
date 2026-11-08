@@ -1,0 +1,145 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #170b2e, #351052, #160b27);
+    color: white;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    padding: 35px 15px;
+}
+
+header h1 {
+    color: #ffd166;
+    font-size: 38px;
+    margin-bottom: 12px;
+}
+
+header p {
+    color: #f5dca8;
+    font-size: 16px;
+}
+
+.container {
+    width: 90%;
+    max-width: 650px;
+    margin: 20px auto 50px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.09);
+    border: 1px solid rgba(255, 209, 102, 0.4);
+    border-radius: 18px;
+    box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+}
+
+.container h2 {
+    color: #ffd166;
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 18px;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    color: #ffe5a3;
+}
+
+input, textarea, select {
+    width: 100%;
+    padding: 13px;
+    border: 1px solid #d7b66b;
+    border-radius: 8px;
+    background: #fffaf0;
+    color: #24122f;
+    font-size: 15px;
+}
+
+textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+button {
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #ffb703, #ffdd75);
+    color: #351052;
+    font-size: 17px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ffffff;
+}
+
+footer {
+    text-align: center;
+    padding: 20px;
+    color: #e6c98f;
+}
+
+
+.color-picker {
+    display: block;
+    width: 100%;
+    height: 55px;
+    padding: 5px;
+    background: #fffaf0;
+    border: 2px solid #eac76b;
+    border-radius: 10px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.color-picker::-webkit-color-swatch-wrapper {
+    padding: 3px;
+}
+
+.color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 6px;
+}
+
+.editor {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 25px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.form-container,
+.preview-container {
+    min-width: 0;
+}
+
+.preview-card {
+    width: 100%;
+    box-sizing: border-box;
+}
+
+@media (max-width: 850px) {
+    .editor {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-card {
+        max-width: 600px;
+        margin: auto;
+    }
+}
+

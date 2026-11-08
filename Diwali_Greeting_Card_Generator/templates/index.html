@@ -1,0 +1,420 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Diwali Greeting Card Generator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        /* Editor layout */
+        .editor {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 35px;
+            align-items: start;
+            padding: 30px;
+        }
+
+        .preview-container {
+            text-align: center;
+        }
+
+        .preview-container h2 {
+            margin-bottom: 20px;
+        }
+
+        .gallery-button {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    text-align: center;
+    padding: 15px;
+    margin-top: 15px;
+
+    background: linear-gradient(135deg, #6a329f, #3b1765);
+    color: white;
+
+    text-decoration: none;
+    font-size: 17px;
+    font-weight: bold;
+
+    border: 2px solid #f5d477;
+    border-radius: 10px;
+
+    transition: 0.3s ease;
+    }
+
+    .gallery-button:hover {
+    background: linear-gradient(135deg, #f5c542, #e9a817);
+    color: #351052;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+        /* Main greeting card */
+        .preview-card {
+            position: relative;
+            min-height: 420px;
+            padding: 18px;
+            border-radius: 18px;
+            background: linear-gradient(145deg, #681326, #a52e38);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            overflow: hidden;
+            transition: background 0.4s ease;
+        }
+
+        /* Golden border */
+        .preview-border {
+            position: relative;
+            z-index: 1;
+            min-height: 380px;
+            border: 2px solid #eac76b;
+            border-radius: 12px;
+            padding: 35px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #fff7df;
+            background: rgba(0,0,0,0.12);
+        }
+
+        /* Decorative corners */
+        .preview-border::before,
+        .preview-border::after {
+            content: "✦";
+            position: absolute;
+            color: #ffd875;
+            font-size: 30px;
+        }
+
+        .preview-border::before {
+            top: 10px;
+            left: 14px;
+        }
+
+        .preview-border::after {
+            bottom: 10px;
+            right: 14px;
+        }
+
+        .preview-top {
+            font-size: 35px;
+            margin-bottom: 15px;
+            filter: drop-shadow(0 0 8px #ffb52e);
+        }
+
+        #previewTitle {
+            font-family: Georgia, serif;
+            font-size: 35px;
+            color: #ffe39a;
+            letter-spacing: 2px;
+            margin: 5px 0 12px;
+            text-shadow: 0 3px 8px rgba(0,0,0,0.4);
+        }
+
+        .preview-divider {
+            color: #f7d477;
+            font-size: 22px;
+            margin: 8px 0;
+        }
+
+        .wish {
+            font-size: 15px;
+            font-style: italic;
+            margin-bottom: 25px;
+            color: #fff1cf;
+        }
+
+        #previewReceiver {
+            font-family: Georgia, serif;
+            font-size: 25px;
+            color: #ffffff;
+            margin: 10px 0;
+        }
+
+        #previewMessage {
+            font-size: 16px;
+            line-height: 1.7;
+            max-width: 420px;
+            overflow-wrap: anywhere;
+            margin: 12px 0;
+            color: #fff6e8;
+        }
+
+        .preview-diya {
+            font-size: 38px;
+            margin: 15px 0;
+            filter: drop-shadow(0 0 10px #ffc04b);
+        }
+
+        #previewSender {
+            font-family: Georgia, serif;
+            color: #ffe39a;
+            font-size: 20px;
+            margin-top: 10px;
+        }
+
+        .preview-note {
+            color: #777;
+            font-size: 13px;
+            margin-top: 15px;
+        }
+
+        /* Responsive layout */
+        @media (max-width: 850px) {
+            .editor {
+                grid-template-columns: 1fr;
+                padding: 15px;
+            }
+
+            .preview-card {
+                min-height: 380px;
+            }
+
+            .preview-border {
+                min-height: 340px;
+                padding: 25px 12px;
+            }
+
+            #previewTitle {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>🪔 Happy Diwali 🪔</h1>
+        <p>Create beautiful personalized Diwali greeting cards</p>
+    </header>
+
+    <div class="editor">
+
+        <!-- LEFT SIDE: INPUT FORM -->
+
+        <div class="form-container">
+
+            <h2>Create Your Card ✨</h2>
+
+            <form action="/generate" method="POST">
+
+                <div class="form-group">
+                    <label>Your Name</label>
+                    <input type="text" id="sender" name="sender"
+                           placeholder="Enter your name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Receiver's Name</label>
+                    <input type="text" id="receiver" name="receiver"
+                           placeholder="Enter receiver's name" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Select Card Design</label>
+
+                    <select id="design" name="design">
+                        <option>Traditional Diwali</option>
+                        <option>Golden Diwali</option>
+                        <option>Modern Diwali</option>
+                    </select>
+                </div>
+                
+                <!-- FONT SIZE -->
+                
+                <div class="form-group">
+                <label for="fontSize">Choose Font Size</label>
+
+                <select id="fontSize" name="font_size">
+                <option value="24">Small</option>
+                <option value="32" selected>Medium</option>
+                <option value="42">Large</option>
+                </select>
+                </div>
+
+
+                
+    <!-- TEXT COLOR -->
+      <div class="form-group">
+      <label for="textColor">Choose Text Color</label>
+      <input type="color"
+           id="textColor"
+           name="text_color"
+           value="#fff5dc"
+           class="color-picker">
+     </div>
+
+    <!-- BACKGROUND COLOR -->
+    <div class="form-group">
+    <label for="backgroundColor">Choose Background Color</label>
+    <input type="color"
+           id="backgroundColor"
+           name="background_color"
+           value="#681326"
+           class="color-picker">
+    </div>
+
+
+
+                <div class="form-group">
+                    <label>Your Message</label>
+                    <textarea id="message" name="message"
+                              placeholder="Write your Diwali wishes..."
+                              required></textarea>
+                </div>
+
+                <button type="submit">
+                    Generate Greeting Card 🪔
+                </button>
+
+            </form>
+
+            <a href="/gallery" class="gallery-button">
+            🖼️ View My Gallery
+            </a>
+
+        </div>
+
+
+        <!-- RIGHT SIDE: PROFESSIONAL LIVE PREVIEW -->
+
+        <div class="preview-container">
+
+            <h2>Live Card Preview ✨</h2>
+
+            <div class="preview-card" id="previewCard">
+
+                <div class="preview-border">
+
+                    <div class="preview-top">
+                        ✨ 🪔 ✨
+                    </div>
+
+                    <h1 id="previewTitle">
+                        HAPPY DIWALI
+                    </h1>
+
+                    <div class="preview-divider">
+                        ━━━━━ ✦ ━━━━━
+                    </div>
+
+                    <p class="wish">
+                        Wishing you happiness and prosperity
+                    </p>
+
+                    <h2 id="previewReceiver">
+                        Dear Your Friend
+                    </h2>
+
+                    <p id="previewMessage">
+                        May this Diwali bring happiness,
+                        success and prosperity to your life!
+                    </p>
+
+                    <div class="preview-diya">
+                        🪔 ✨ 🪔
+                    </div>
+
+                    <h3 id="previewSender">
+                        With love, Your Name
+                    </h3>
+
+                </div>
+
+            </div>
+
+            <p class="preview-note">
+                ✨ Your greeting card updates automatically while typing.
+            </p>
+
+        </div>
+
+    </div>
+
+    <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+    const sender = document.getElementById("sender");
+    const receiver = document.getElementById("receiver");
+    const message = document.getElementById("message");
+    const design = document.getElementById("design");
+
+    const fontSize = document.getElementById("fontSize");
+    const textColor = document.getElementById("textColor");
+    const backgroundColor = document.getElementById("backgroundColor");
+
+    const previewSender = document.getElementById("previewSender");
+    const previewReceiver = document.getElementById("previewReceiver");
+    const previewMessage = document.getElementById("previewMessage");
+    const previewTitle = document.getElementById("previewTitle");
+    const previewCard = document.getElementById("previewCard");
+
+    function updatePreview() {
+
+        // Update names and message
+        previewSender.textContent =
+            "With love, " + (sender.value.trim() || "Your Name");
+
+        previewReceiver.textContent =
+            "Dear " + (receiver.value.trim() || "Your Friend");
+
+        previewMessage.textContent =
+            message.value.trim() ||
+            "May this Diwali bring happiness, success and prosperity to your life!";
+
+        // Update font size
+        const selectedSize = Number(fontSize.value);
+
+        previewMessage.style.fontSize = selectedSize + "px";
+        previewReceiver.style.fontSize = (selectedSize + 5) + "px";
+        previewSender.style.fontSize = (selectedSize - 4) + "px";
+
+        // Update text color
+        previewTitle.style.color = textColor.value;
+        previewReceiver.style.color = textColor.value;
+        previewMessage.style.color = textColor.value;
+        previewSender.style.color = textColor.value;
+
+        // Update background color
+        previewCard.style.background = backgroundColor.value;
+    }
+
+    // Listen for changes
+    sender.addEventListener("input", updatePreview);
+    receiver.addEventListener("input", updatePreview);
+    message.addEventListener("input", updatePreview);
+
+    fontSize.addEventListener("change", updatePreview);
+    textColor.addEventListener("input", updatePreview);
+    backgroundColor.addEventListener("input", updatePreview);
+
+    design.addEventListener("change", function () {
+
+        if (design.value === "Golden Diwali") {
+            backgroundColor.value = "#68421b";
+        }
+        else if (design.value === "Modern Diwali") {
+            backgroundColor.value = "#572c86";
+        }
+        else {
+            backgroundColor.value = "#681326";
+        }
+
+        updatePreview();
+    });
+
+    updatePreview();
+
+    });
+    </script>
+
+
+   
+
+</body>
+</html>
